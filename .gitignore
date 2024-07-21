@@ -1,0 +1,4 @@
+venv
+logs
+data/config.py
+sessions
