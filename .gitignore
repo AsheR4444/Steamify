@@ -1,0 +1,10 @@
+venv
+logs
+data/config.py
+sessions
+.DS_Store
+*.pyc
+*.pyo
+.idea
+test.py
+*.csv
