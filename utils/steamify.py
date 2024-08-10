@@ -128,7 +128,7 @@ class Steamify:
 
         #is_ok = (await resp.json()).get("msg")
 
-        return is_farm_active, is_farm_completed, start_time, end_time
+        return is_farm_active, is_farm_available, is_farm_completed, start_time, end_time
 
     @retry_async()
     async def claim_daily(self):
