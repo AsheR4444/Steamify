@@ -18,3 +18,11 @@ WORKDIR = "sessions/"
 
 # timeout in seconds for checking accounts on valid
 TIMEOUT = 30
+
+CASE_OPEN_GAME = {
+    'PLAY': True,  
+    'CASES_TO_BE_OPENED': [0, 100],  
+    'DELAY_BETWEEN_OPENINGS': [15, 60],  
+    'CASE_PRICE': [15, 300],
+    'MIN_BALANCE_CONTROL': 30
+}

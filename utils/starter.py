@@ -21,7 +21,7 @@ async def start(thread: int, session_name: str, phone_number: str, proxy: [str, 
 
     while True:
         try:
-            await sleep(5)
+            await steamify.random_wait()
 
             if await steamify.need_new_login():
                 if await steamify.login() is None:
@@ -29,10 +29,14 @@ async def start(thread: int, session_name: str, phone_number: str, proxy: [str, 
 
             is_farm_active, is_farm_completed, start_time, end_time = await steamify.check_info()
             await steamify.claim_daily()
+            await steamify.random_wait()
+            await steamify.claim_sparks()
+            await steamify.random_wait()
+            await steamify.play_case_game()
 
             if is_farm_completed:
                 await steamify.claim()
-                await sleep(uniform(2, 5))
+                await steamify.random_wait()
                 await steamify.start_farm()
             elif is_farm_active:
                 now = datetime.now().timestamp()
