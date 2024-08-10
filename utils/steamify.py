@@ -117,10 +117,14 @@ class Steamify:
     async def check_info(self):
         resp = await self.session.get(f"{API_URL}/user/me")
         start_time = (await resp.json()).get("data").get("farm").get("started_at")
-        end_time = start_time + 21600
         farm_status = (await resp.json()).get("data").get("farm").get("status")
         is_farm_completed = farm_status == "completed"
         is_farm_active = farm_status == "in_progress"
+        is_farm_available = farm_status == "available"
+        end_time = None
+
+        if not is_farm_available:
+            end_time = start_time + 21600
 
         #is_ok = (await resp.json()).get("msg")
 
@@ -162,7 +166,8 @@ class Steamify:
         sparks = data.get("data").get("claimed_sparks")
 
         logger.success(f"Thread {self.thread} | {self.account} | {sparks} sparks claimed!")
-
+        
+    @retry_async()
     async def play_case_game(self):
         if not config.CASE_OPEN_GAME['PLAY']:
             return
@@ -190,6 +195,7 @@ class Steamify:
 
             await self.random_wait()
             weapon = await self.open_case(selected_case)
+            logger.info(f"Thread {self.thread} | {self.account} | plays = {plays}")
             logger.success(f"Thread {self.thread} | {self.account} | Opened a new case ({plays + 1} out of {max_plays}) | Weapon: {weapon.get('name')} | Rarity: {weapon.get('rarity')} | Is rare special item: {weapon.get('is_rare_special_item')}")
             plays += 1
             await asyncio.sleep(uniform(*config.CASE_OPEN_GAME['DELAY_BETWEEN_OPENINGS']))
